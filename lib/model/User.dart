@@ -1,20 +1,33 @@
+import 'package:flutterrestapihttpdemo/model/Address.dart';
+import 'package:flutterrestapihttpdemo/model/Company.dart';
+
 class User {
-  int id;
-  String name;
-  String email;
+  final int id;
+  final String name;
+  final String username;
+  final String email;
+  final String phone;
+  final String website;
+//  final List<Address> address;
+//  final List<Company> company;
 
-  User(int id, String name, String email) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-  }
+  User({
+    this.id,
+    this.name,
+    this.username,
+    this.email,
+    this.phone,
+    this.website,
+  });
 
-  User.fromJson(Map json)
-      : id = json['id'],
-        name = json['name'],
-        email = json['email'];
-
-  Map toJson() {
-    return {'id': id, 'name': name, 'email': email};
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      username: json['username'] as String,
+      email: json['email'] as String,
+      phone: json['phone'] as String,
+      website: json['website'] as String,
+    );
   }
 }

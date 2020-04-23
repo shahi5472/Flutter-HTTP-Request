@@ -5,7 +5,7 @@ class Album {
 
   Album({this.userId, this.id, this.title});
 
-  factory Album.fromJson(Map<String, dynamic> json) {
+  factory Album.fromJson(final json) {
     return Album(
       userId: json['userId'] as int,
       id: json['id'] as int,

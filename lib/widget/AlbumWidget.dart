@@ -8,22 +8,27 @@ Widget albumWidget(Future<List<Album>> futureAlbum) {
       future: futureAlbum,
       builder: (BuildContext context, AsyncSnapshot<List<Album>> snapshot) {
         if (snapshot.hasData) {
-          return Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                Album album = snapshot.data[index];
-                return Text("Title : ${album.title}");
-              },
-            ),
+          List<Album> album = snapshot.data;
+          return ListView.builder(
+            itemCount: album.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                    'Id : ${album[index].id}\nTitle : ${album[index].title}'),
+              );
+            },
           );
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
+          return Center(
+            child: Text("${snapshot.error}"),
+          );
         }
 
         // By default, show a loading spinner.
-        return CircularProgressIndicator();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     ),
   );

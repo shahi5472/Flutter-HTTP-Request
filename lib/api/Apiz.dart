@@ -11,25 +11,37 @@ import 'package:http/http.dart' as http;
 const baseUrl = "https://jsonplaceholder.typicode.com/";
 
 class Apiz {
-  static Future<User> getUsers() async {
-    final response = await http.get(baseUrl + "/users");
+  static Future<List<User>> getUsers() async {
+    final response = await http.get(baseUrl + "users");
     if (response.statusCode == 200) {
-      return User.fromJson(json.decode(response.body));
+      List<dynamic> body = json.decode(response.body);
+
+      List<User> users =
+          body.map((dynamic item) => User.fromJson(item)).toList();
+
+      return users;
     } else {
       throw Exception();
     }
   }
 
-  static Future<Photo> getPhoto() async {
+  //Its Working Fine
+  static Future<List<Photo>> getPhoto() async {
     final response = await http.get(baseUrl + "photos");
 
     if (response.statusCode == 200) {
-      return Photo.fromJson(jsonDecode(response.body));
+      List<dynamic> body = json.decode(response.body);
+
+      List<Photo> photos =
+          body.map((dynamic item) => Photo.fromJson(item)).toList();
+
+      return photos;
     } else {
       throw Exception();
     }
   }
 
+  //Its working fine
   static Future<List<Post>> getPosts() async {
     final response = await http.get(baseUrl + "posts");
     if (response.statusCode == 200) {
@@ -47,8 +59,9 @@ class Apiz {
     }
   }
 
-  static Future<List<Album>> fetchAlbum() async {
-    final response = await http.get(baseUrl + 'albums/1');
+  //Its Working final
+  static Future<List<Album>> getAlbums() async {
+    final response = await http.get(baseUrl + 'albums');
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
@@ -65,6 +78,7 @@ class Apiz {
     }
   }
 
+  //Its working fine
   static Future<StudentModel> getStudent() async {
     final url = "https://api.jsonbin.io/b/5e1219328d761771cc8b9394";
     final response = await http.get(url);

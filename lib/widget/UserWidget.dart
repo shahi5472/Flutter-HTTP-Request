@@ -2,29 +2,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterrestapihttpdemo/model/User.dart';
 
-Widget userWidget(Future<User> futureUser) {
+Widget userWidget(Future<List<User>> futureUser) {
   return Container(
-    child: FutureBuilder<User>(
+    child: FutureBuilder<List<User>>(
       future: futureUser,
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
         print(snapshot.data);
         if (snapshot.hasData) {
-          return Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                User user = snapshot.data;
-                return Text("Name : ${user.name}");
-              },
-            ),
+          List<User> user = snapshot.data;
+          return ListView.builder(
+            itemCount: user.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: Container(
+                  margin: EdgeInsets.all(4),
+                  padding: EdgeInsets.all(4),
+                  child: Text(
+                      "Name : ${user[index].name}\n\nEmail : ${user[index].email}"),
+                ),
+              );
+            },
           );
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
+          return Center(
+            child: Text("${snapshot.error}"),
+          );
         }
 
         // By default, show a loading spinner.
-        return CircularProgressIndicator();
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     ),
   );
